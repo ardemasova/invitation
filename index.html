@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Yule Ball · Barcelona · 19.12.2026">
+<meta property="og:title" content="The Yule Ball · Barcelona">
+<meta property="og:description" content="19.12.2026 · El Caldero Mágico">
+<meta name="theme-color" content="#06120d">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<title>Yule Ball Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Great+Vibes&family=Marck+Script&display=swap">
+<style>
+/* Layout: an envelope on velvet opens into one long letter — parchment and starry-pine panels with torn edges, a snowy owl as the guide. */
+:root{
+  --ink:#2a1c13; --ink-soft:#5b4535; --wine:#6d1a24; --wine-hi:#8f2431;
+  --gold:#cfa850; --gold-hi:#f2d98f; --pine:#0f2a20; --night:#06120d; --ivory:#f1e6cd;
+  --f-display:"Cormorant SC","Cormorant Garamond",Georgia,serif;
+  --f-body:"EB Garamond",Garamond,Georgia,serif;
+  --f-script:"Great Vibes","Marck Script","Brush Script MT",cursive;
+  --col:min(760px,100%);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.locked{overflow:hidden;height:100%}
+img{max-width:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+
+/* ---------- language switch ---------- */
+.lang{position:fixed;z-index:80;top:calc(env(safe-area-inset-top,0px) + 12px);left:max(12px,env(safe-area-inset-left,0px));display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(6,18,13,.62);border:1px solid rgba(207,168,80,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.lang button{border:0;background:none;color:var(--ivory);font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.12em;padding:5px 10px;border-radius:999px;cursor:pointer;opacity:.7}
+.lang button[aria-pressed="true"]{background:var(--gold);color:var(--night);opacity:1}
+
+/* ---------- envelope stage ---------- */
+#stage{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:#0b1f17 url(assets/velvet.webp) center/cover no-repeat;transition:opacity .9s ease}
+#stage.gone{opacity:0;pointer-events:none}
+#envelope{position:relative;perspective:1800px;width:100vw;height:100vh;border:0;padding:0;background:none;cursor:pointer;display:block}
+#envelope.landscape{box-shadow:0 30px 60px rgba(0,0,0,.55),0 8px 18px rgba(0,0,0,.4)}
+.env-in{position:absolute;inset:0;background:url(assets/lining.webp) center/520px repeat;box-shadow:inset 0 40px 80px rgba(0,0,0,.55)}
+.letter{position:absolute;left:7%;right:7%;top:6%;bottom:8%;background:url(assets/parchment.webp) center/700px;box-shadow:0 2px 10px rgba(0,0,0,.35);border-radius:2px}
+.letter::after{content:"";position:absolute;inset:8%;border:1px solid rgba(109,26,36,.25)}
+.flap{position:absolute;inset:0;filter:drop-shadow(0 1px 1px rgba(40,22,8,.55)) drop-shadow(0 4px 9px rgba(40,22,8,.28))}
+.flap>i{position:absolute;inset:0;background-image:url(assets/parchment.webp);background-size:900px}
+.fl>i{clip-path:polygon(0 0,52% 50%,0 100%);background-position:10% 30%}
+.fl>i::after,.fr>i::after,.fb>i::after,.ft>i::after{content:"";position:absolute;inset:0}
+.fl>i::after{background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(90,60,30,.18))}
+.fr>i{clip-path:polygon(100% 0,48% 50%,100% 100%);background-position:80% 60%}
+.fr>i::after{background:linear-gradient(270deg,rgba(255,255,255,.06),rgba(90,60,30,.2))}
+.fb>i{clip-path:polygon(0 100%,50% 46%,100% 100%);background-position:40% 90%}
+.fb>i::after{background:linear-gradient(0deg,rgba(255,255,255,.05),rgba(90,60,30,.16))}
+.ft{transform-origin:50% 0;z-index:5}
+.ft>i{clip-path:polygon(0 0,100% 0,50% 56%);background-position:50% 10%}
+.ft>i::after{background:linear-gradient(180deg,rgba(255,250,235,.12),rgba(90,60,30,.12))}
+#envelope.landscape .ft>i{clip-path:polygon(0 0,100% 0,50% 60%)}
+.open .ft{animation:flapOpen 1s cubic-bezier(.45,0,.35,1) forwards}
+.open .ft>i{animation:flapFace 1s cubic-bezier(.45,0,.35,1) forwards}
+@keyframes flapOpen{0%{transform:rotateX(0);z-index:5}100%{transform:rotateX(178deg);z-index:1}}
+@keyframes flapFace{0%{background-image:url(assets/parchment.webp)}100%{background-image:url(assets/lining.webp);background-size:520px}}
+.env-in{z-index:0}.letter{z-index:2}.fl,.fr,.fb{z-index:3}
+.rise .letter{animation:letterRise 1.1s cubic-bezier(.3,.1,.2,1) forwards;z-index:2}
+@keyframes letterRise{to{transform:translateY(-62%)}}
+#envelope.rise .fl,#envelope.rise .fr,#envelope.rise .fb{z-index:4}
+
+/* gold lines */
+.lines{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;overflow:visible;filter:drop-shadow(0 0 3px rgba(242,217,143,.9)) drop-shadow(0 0 10px rgba(207,168,80,.7))}
+.lines path,.orn path{fill:none;stroke:url(#goldGrad);stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.lines path{vector-effect:non-scaling-stroke}
+.orn{position:absolute;z-index:6;pointer-events:none;overflow:visible;filter:drop-shadow(0 0 3px rgba(242,217,143,.9)) drop-shadow(0 0 12px rgba(207,168,80,.6))}
+.orn path{stroke-width:1.8}
+.glow .lines path{animation:draw 1.3s ease-out forwards}
+.glow .orn path{animation:draw 1.5s .25s ease-out forwards}
+.dim .lines,.dim .orn{transition:opacity .8s;opacity:0}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+.seal{position:absolute;z-index:7;transform:translate(-50%,-50%);pointer-events:none}
+.seal img{width:100%;display:block;filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))}
+.seal::before{content:"";position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(circle,rgba(242,217,143,.55),rgba(242,217,143,0) 62%);opacity:0;transition:opacity .6s}
+#envelope:not(.glow) .seal::before{animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:0}50%{opacity:.5}}
+.glow .seal::before{opacity:1}
+.glow .seal{animation:sealPulse .9s ease-in-out 2}
+@keyframes sealPulse{50%{transform:translate(-50%,-50%) scale(1.06)}}
+.melt .seal{animation:sealMelt .7s ease-in forwards}
+@keyframes sealMelt{to{transform:translate(-50%,-50%) scale(1.35);opacity:0;filter:blur(3px) brightness(1.6)}}
+.hint{position:absolute;z-index:7;left:50%;transform:translateX(-50%);font-family:var(--f-display);font-weight:600;letter-spacing:.2em;font-size:14px;color:var(--ivory);text-shadow:0 1px 6px rgba(0,0,0,.8);white-space:nowrap;animation:hint 2.4s ease-in-out infinite;pointer-events:none;background:rgba(6,18,13,.45);padding:6px 14px;border-radius:999px}
+@keyframes hint{0%,100%{opacity:.55}50%{opacity:1}}
+.glow .hint{display:none}
+#fx{position:fixed;inset:0;z-index:65;pointer-events:none}
+
+/* ---------- owls ---------- */
+#owlIntro{position:fixed;left:0;top:0;z-index:70;pointer-events:none;opacity:0;will-change:transform}
+.spr{position:absolute;inset:0;background-repeat:no-repeat;background-size:800% 600%;background-position:0 0}
+#owlIntro .spr{background-image:url(assets/owl-back-sprite.webp);filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+#owl{position:fixed;left:0;top:0;z-index:55;pointer-events:none;opacity:0;transition:opacity .6s;will-change:transform}
+#owl.on{opacity:1}
+#owl .spr,#owl .perched{opacity:0;transition:opacity .22s;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+#owl .side{background-image:url(assets/owl-side-sprite.webp)}
+#owl .glide{background-image:url(assets/owl-glide-sprite.webp)}
+#owl .show{opacity:1}
+#owl .perched{position:absolute;left:50%;bottom:6%;width:44%;transform:translateX(-50%)}
+#owlLetter{position:fixed;left:0;top:0;z-index:75;pointer-events:none;opacity:0;width:150px}
+
+/* ---------- snow ---------- */
+#snow{position:fixed;inset:0;z-index:58;pointer-events:none}
+
+/* ---------- site ---------- */
+#site{position:relative;z-index:1;opacity:0;transform:scale(1.03);transition:opacity 1.1s ease,transform 1.4s ease;background:#0b1f17 url(assets/velvet.webp) center/cover fixed}
+#site.shown{opacity:1;transform:none}
+.page{width:var(--col);margin:0 auto;box-shadow:0 0 80px rgba(0,0,0,.6)}
+section,footer{position:relative}
+.wrap{padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));padding-block:72px 80px;max-width:640px;margin:0 auto}
+.torn{margin-top:-18px}
+.paper{background:url(assets/parchment.webp) center/760px;color:var(--ink)}
+.dark{background:linear-gradient(rgba(8,26,19,.78),rgba(8,26,19,.86)),url(assets/lining.webp) center/520px;color:var(--ivory)}
+.eyebrow{font-family:var(--f-display);font-weight:600;font-size:14px;letter-spacing:.24em;text-transform:uppercase;margin:0 0 6px;text-align:center}
+.paper .eyebrow{color:var(--wine)} .dark .eyebrow{color:var(--gold)}
+h2{font-family:var(--f-script);font-weight:400;font-size:clamp(46px,9vw,64px);line-height:1.05;margin:0 0 28px;text-align:center;text-wrap:balance}
+.paper h2{color:var(--wine)} .dark h2{color:var(--gold-hi)}
+.rule{display:flex;align-items:center;gap:12px;justify-content:center;margin:0 auto 30px;width:min(260px,70%)}
+.rule::before,.rule::after{content:"";flex:1;height:1px;background:currentColor;opacity:.45}
+.rule svg{width:16px;height:16px;fill:currentColor}
+.paper .rule{color:var(--wine)} .dark .rule{color:var(--gold)}
+p{margin:0 0 1em}
+
+/* hero */
+.hero{min-height:min(100svh,1000px);display:grid;align-items:end;justify-items:center;text-align:center;overflow:hidden;color:var(--ivory);
+  background:#0c1d22 url(assets/castle-v.webp) center 18%/cover no-repeat}
+@media (min-aspect-ratio:1/1) and (min-width:720px){.hero{background-image:url(assets/castle-h.webp);background-position:center 30%;min-height:min(100svh,56vw)}}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,16,18,.45) 0%,rgba(6,16,18,0) 18%,rgba(6,16,18,0) 42%,rgba(6,18,13,.72) 68%,rgba(7,22,16,.96) 100%)}
+.hero-in{position:relative;z-index:2;padding:40px max(24px,env(safe-area-inset-right,0px)) 76px max(24px,env(safe-area-inset-left,0px))}
+.perch{height:96px;width:1px;margin:0 auto}
+.page{position:relative;z-index:2}
+.torn{overflow:hidden}
+.garland{display:block;width:100%;max-width:none;height:auto;margin:6px 0 -46px;position:relative;z-index:1;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(60,35,10,.25))}
+.deco{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 4px 5px rgba(40,22,8,.25))}
+.deco-holly{width:clamp(80px,16vw,120px);top:26px;right:8px;transform:rotate(14deg)}
+.deco-holly2{width:clamp(70px,13vw,100px);bottom:18px;left:8px;transform:rotate(-18deg)}
+.deco-mist{width:clamp(64px,12vw,90px);display:block;margin:0 auto 10px;position:relative;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.wreath{position:relative;width:min(300px,78%);aspect-ratio:680/719;margin:0 auto 6px;background:url(assets/wreath.webp) center/contain no-repeat;display:grid;place-items:center;align-content:center;padding-bottom:6%}
+.wreath b{font-family:var(--f-script);font-weight:400;font-size:clamp(54px,14vw,72px);line-height:.9;color:var(--wine)}
+.wreath small{font-family:var(--f-display);font-weight:700;letter-spacing:.12em;font-size:11px;color:var(--ink-soft);max-width:9em;text-align:center;line-height:1.2}
+.hero .eyebrow{color:var(--gold)}
+.hero h1{font-family:var(--f-script);font-weight:400;font-size:clamp(64px,16vw,124px);line-height:.95;margin:6px 0 14px;color:var(--gold-hi);text-shadow:0 0 30px rgba(242,217,143,.35)}
+.hero .sub{font-style:italic;font-size:20px;opacity:.9;max-width:26em;margin:0 auto 34px;text-wrap:balance}
+.scroll-cue{display:inline-flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--f-display);letter-spacing:.24em;font-size:12px;color:var(--gold);text-decoration:none}
+.scroll-cue svg{width:18px;height:18px;animation:cue 1.8s ease-in-out infinite;stroke:currentColor;fill:none;stroke-width:1.6}
+@keyframes cue{50%{transform:translateY(5px)}}
+.candles{position:absolute;inset:0;z-index:1;pointer-events:none}
+.candle{position:absolute;width:var(--w,22px);animation:float 6s ease-in-out infinite}
+.candle img{display:block;width:100%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.45))}
+.candle::after{content:"";position:absolute;left:50%;top:0;width:calc(var(--w,22px)*3.4);aspect-ratio:1;transform:translate(-50%,-38%);border-radius:50%;background:radial-gradient(circle,rgba(255,214,130,.55),rgba(255,190,90,.18) 38%,rgba(255,190,90,0) 66%);mix-blend-mode:screen;animation:flick 2.4s ease-in-out infinite alternate}
+@keyframes float{50%{transform:translateY(-14px)}}
+@keyframes flick{0%{opacity:.75}30%{opacity:1}55%{opacity:.82}100%{opacity:.95}}
+
+/* letter */
+.letter-text{font-size:19px}
+.letter-text .greet{font-family:var(--f-script);font-size:40px;color:var(--wine);margin-bottom:.4em;line-height:1.1}
+.letter-text p{text-wrap:pretty}
+.sign{margin-top:28px;text-align:right}
+.sign .flour{font-family:var(--f-script);font-size:34px;color:var(--wine);line-height:1}
+.sign small{display:block;font-family:var(--f-display);letter-spacing:.14em;font-size:14px;color:var(--ink-soft)}
+
+/* countdown */
+.count{display:flex;justify-content:center;gap:clamp(8px,3vw,22px);font-variant-numeric:tabular-nums}
+.count div{display:flex;flex-direction:column;align-items:center;min-width:64px}
+.count b{font-family:var(--f-display);font-weight:600;font-size:clamp(40px,10vw,60px);line-height:1;color:var(--gold-hi)}
+.count span{font-family:var(--f-display);letter-spacing:.18em;font-size:12px;text-transform:uppercase;opacity:.8;margin-top:6px}
+.when{text-align:center;margin-top:28px;font-style:italic;opacity:.9}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:83px;top:10px;bottom:10px;width:1px;background:var(--wine);opacity:.35}
+.tl li{display:grid;grid-template-columns:66px 34px 1fr;align-items:start;padding:10px 0}
+.tl time{font-family:var(--f-display);font-weight:700;font-size:22px;color:var(--wine);font-variant-numeric:tabular-nums;line-height:1.2}
+.tl .star{width:14px;height:14px;margin:6px 0 0 10px;fill:var(--gold);filter:drop-shadow(0 0 2px rgba(207,168,80,.6))}
+.tl h3{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:.06em;margin:0;line-height:1.2}
+.tl p{margin:2px 0 0;color:var(--ink-soft)}
+
+/* sorting hat */
+.dc-intro{text-align:center;max-width:30em;margin:0 auto 26px;text-wrap:balance}
+.rules{list-style:none;padding:0;margin:0 auto 40px;max-width:30em;display:grid;gap:10px}
+.rules li{display:grid;grid-template-columns:22px 1fr;gap:10px}
+.rules svg{width:14px;height:14px;margin-top:6px;fill:var(--gold)}
+.hatbox{display:grid;justify-items:center;gap:14px;text-align:center}
+.hat{position:relative;width:min(280px,72vw);aspect-ratio:560/480;border:0;background:none;cursor:pointer;padding:0;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));transform-origin:50% 90%}
+.hat img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.hat .talk{opacity:0}
+.hat.speak .talk{opacity:1}.hat.speak .idle{opacity:0}
+.hat:not(.think):hover{transform:rotate(-2deg) scale(1.02);transition:transform .3s}
+.hat.think{animation:wobble .9s ease-in-out infinite}
+@keyframes wobble{25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font-family:var(--f-display);font-weight:700;letter-spacing:.16em;font-size:15px;text-transform:uppercase;padding:14px 26px;border-radius:999px;text-decoration:none}
+.btn-gold{background:linear-gradient(180deg,#e3c372,#b8903c);color:#1c120a;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.btn-wine{background:linear-gradient(180deg,var(--wine-hi),var(--wine));color:var(--ivory);box-shadow:0 4px 14px rgba(70,10,20,.35)}
+.btn-ghost{background:transparent;border:1px solid currentColor;padding:12px 22px}
+.speech{min-height:2.8em;font-style:italic;font-size:20px;color:var(--gold-hi);max-width:24em}
+.result{width:100%;max-width:520px;margin-top:6px;border:1px solid var(--house,var(--gold));border-radius:6px;padding:26px 22px;background:linear-gradient(180deg,color-mix(in srgb,var(--house,#cfa850) 22%,rgba(6,18,13,.6)),rgba(6,18,13,.55));text-align:left;animation:reveal .7s ease both}
+@keyframes reveal{from{opacity:0;transform:translateY(12px)}}
+.result .hname{font-family:var(--f-display);font-weight:700;letter-spacing:.2em;font-size:15px;text-align:center;color:var(--gold-hi);margin:0}
+.result .sname{font-family:var(--f-script);font-size:44px;text-align:center;color:var(--ivory);margin:2px 0 12px;line-height:1.1}
+.sw{display:flex;justify-content:center;gap:10px;margin-bottom:18px}
+.sw i{width:30px;height:30px;border-radius:50%;border:2px solid rgba(241,230,205,.7);box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.result dl{margin:0;display:grid;gap:12px}
+.result .look{display:block;width:100%;max-height:460px;object-fit:contain;margin:0 auto 18px;border-radius:3px;box-shadow:0 8px 20px rgba(0,0,0,.45)}
+.bar{display:block;width:100%;margin:22px auto 0;border-radius:3px;box-shadow:0 10px 24px rgba(40,22,8,.35);transform:rotate(-1deg)}
+.result dt{font-family:var(--f-display);font-weight:700;letter-spacing:.14em;font-size:13px;color:var(--gold)}
+.result dd{margin:0}
+
+/* venue */
+.venue{text-align:center}
+.venue .vname{font-family:var(--f-display);font-weight:700;font-size:30px;letter-spacing:.08em;color:var(--wine);margin:0}
+.venue .addr{margin:4px 0 16px;color:var(--ink-soft)}
+.venue .note{font-style:italic;max-width:26em;margin:20px auto 26px}
+.venue .pw{font-family:var(--f-display);font-weight:700;letter-spacing:.14em;color:var(--wine)}
+
+/* good to know */
+.facts{display:grid;gap:22px}
+.fact{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.fact svg{width:36px;height:36px;stroke:var(--gold);fill:none;stroke-width:1.4}
+.fact h3{font-family:var(--f-display);font-weight:700;letter-spacing:.08em;font-size:19px;margin:0;color:var(--gold-hi)}
+.fact p{margin:2px 0 0;opacity:.9}
+
+/* rsvp */
+form{display:grid;gap:22px}
+.field{display:grid;gap:6px;min-width:0}
+.field>label,.field>legend{font-family:var(--f-display);font-weight:700;letter-spacing:.12em;font-size:14px;color:var(--wine);padding:0}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+input[type=text],select{width:100%;font:inherit;font-size:18px;color:var(--ink);background:rgba(255,252,240,.55);border:0;border-bottom:1.5px solid rgba(109,26,36,.45);padding:10px 8px;border-radius:3px 3px 0 0}
+input[type=text]::placeholder{color:#8a7560}
+input[type=text]:focus,select:focus{outline:none;border-bottom-color:var(--wine);background:rgba(255,252,240,.85)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.pills label{position:relative}
+.pills input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.pills span{display:inline-block;padding:9px 16px;border-radius:999px;border:1.5px solid rgba(109,26,36,.45);cursor:pointer}
+.pills input:checked+span{background:var(--wine);color:var(--ivory);border-color:var(--wine)}
+.pills input:focus-visible+span{outline:2px solid var(--wine);outline-offset:2px}
+.submit{justify-self:center;margin-top:6px}
+.err{color:var(--wine-hi);font-style:italic;text-align:center;min-height:1.2em;margin:0}
+.done{text-align:center;display:grid;gap:14px;justify-items:center}
+.done h3{font-family:var(--f-script);font-weight:400;font-size:44px;color:var(--wine);margin:0}
+.done pre{white-space:pre-wrap;text-align:left;font-family:var(--f-body);font-size:16px;background:rgba(255,252,240,.6);border:1px dashed rgba(109,26,36,.4);padding:14px 16px;border-radius:4px;margin:0;width:100%;max-width:420px}
+.done .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+
+footer .wrap{text-align:center;padding-block:64px 90px}
+footer .bye{font-family:var(--f-script);font-size:clamp(46px,10vw,64px);color:var(--gold-hi);margin:0}
+footer small{font-family:var(--f-display);letter-spacing:.22em;font-size:12px;color:var(--gold);opacity:.8}
+
+@media (min-width:900px){.wrap{padding-block:90px 100px}}
+@media (prefers-reduced-motion:reduce){.candle,.candle::after,.scroll-cue svg,.hint{animation:none}}
+</style>
+
+</head>
+<body>
+<!-- ================= LANGUAGE ================= -->
+<div class="lang" role="group" aria-label="Language">
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  <button type="button" data-lang="es" aria-pressed="false">ES</button>
+  <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+</div>
+
+<!-- ================= ENVELOPE ================= -->
+<div id="stage">
+  <button id="envelope" type="button" aria-label="Open the letter">
+    <div class="env-in"></div>
+    <div class="letter"></div>
+    <div class="flap fl"><i></i></div>
+    <div class="flap fr"><i></i></div>
+    <div class="flap fb"><i></i></div>
+    <div class="flap ft"><i></i></div>
+    <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2c2"/><stop offset=".5" stop-color="#e8c66a"/><stop offset="1" stop-color="#fff2c2"/></linearGradient></defs>
+      <path id="lnT" pathLength="1" d="M0 0 L500 560 L1000 0"/>
+      <path id="lnL" pathLength="1" d="M0 1000 L454.5 509"/>
+      <path id="lnR" pathLength="1" d="M1000 1000 L545.5 509"/>
+    </svg>
+    <svg class="orn" viewBox="-200 -200 400 400" aria-hidden="true">
+      <g id="ornHalf">
+        <path pathLength="1" d="M-62 6 C-96 24 -122 -14 -150 4 C-168 16 -160 40 -142 36 C-130 33 -132 20 -142 20"/>
+        <path pathLength="1" d="M-52 -34 C-80 -70 -122 -52 -140 -82 C-150 -100 -132 -112 -120 -100 C-112 -92 -118 -82 -126 -86"/>
+        <path pathLength="1" d="M-44 48 C-62 86 -104 88 -116 116 C-122 132 -104 142 -96 130 C-91 122 -98 114 -104 120"/>
+        <path pathLength="1" d="M-96 -6 C-104 -26 -92 -38 -80 -34"/>
+        <path pathLength="1" d="M-86 60 C-100 56 -104 70 -96 76"/>
+      </g>
+      <path pathLength="1" d="M0 -66 C-10 -90 10 -100 0 -124 M0 70 C12 92 -10 104 0 128"/>
+    </svg>
+    <div class="seal"><img src="assets/seal.webp" alt=""></div>
+    <div class="hint" data-i18n="hint">Touch the seal</div>
+  </button>
+</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div id="owlIntro" aria-hidden="true"><div class="spr"></div></div>
+<div id="owl" aria-hidden="true">
+  <div class="spr side"></div>
+  <div class="spr glide"></div>
+  <img class="perched" src="assets/owl-perched.webp" alt="">
+</div>
+<img id="owlLetter" src="assets/owl-letter.webp" alt="" aria-hidden="true">
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<!-- ================= SITE ================= -->
+<div id="site" aria-hidden="true">
+  <section class="hero" id="top">
+    <div class="candles" aria-hidden="true">
+      <i class="candle" style="left:6%;top:14%;--w:clamp(16px,2.6vw,30px);animation-delay:-1s"><img src="assets/candle1.webp" alt=""></i>
+      <i class="candle" style="left:19%;top:5%;--w:clamp(13px,2vw,24px);animation-delay:-3s"><img src="assets/candle2.webp" alt=""></i>
+      <i class="candle" style="right:18%;top:7%;--w:clamp(14px,2.2vw,26px);animation-delay:-2s"><img src="assets/candle3.webp" alt=""></i>
+      <i class="candle" style="right:5%;top:17%;--w:clamp(17px,2.8vw,32px);animation-delay:-4.5s"><img src="assets/candle5.webp" alt=""></i>
+      <i class="candle" style="left:31%;top:2%;--w:clamp(11px,1.6vw,20px);animation-delay:-2.4s;opacity:.85"><img src="assets/candle4.webp" alt=""></i>
+    </div>
+    <div class="hero-in">
+      <div class="perch" id="perch"></div>
+      <p class="eyebrow" data-i18n="heroEyebrow">Barcelona · 19 December 2026</p>
+      <h1 data-i18n="heroTitle">The Yule Ball</h1>
+      <p class="sub" data-i18n="heroSub">An evening of candlelight, music and mulled wine</p>
+      <a class="scroll-cue" href="#letter"><span data-i18n="cue">Read on</span><svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></svg></a>
+    </div>
+  </section>
+
+<div class="page">
+  <section class="paper torn" id="letter">
+    <img class="garland" src="assets/garland.webp" alt="" aria-hidden="true">
+    <div class="wrap letter-text">
+      <p class="greet" data-i18n="greet">Dear Guest,</p>
+      <p data-i18n="l1"></p>
+      <p data-i18n="l2"></p>
+      <p data-i18n="l3"></p>
+      <div class="sign">
+        <span data-i18n="l4">Yours sincerely,</span>
+        <div class="flour" aria-hidden="true">~ ✦ ~</div>
+        <small data-i18n="l5">Deputy Head of Festivities</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark torn" id="countdown">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="cdEyebrow">Saturday · 19:30</p>
+      <h2 data-i18n="cdTitle">The Ball begins in</h2>
+      <div class="count" role="timer" aria-live="off">
+        <div><b id="cd-d">00</b><span data-i18n="cdD">days</span></div>
+        <div><b id="cd-h">00</b><span data-i18n="cdH">hours</span></div>
+        <div><b id="cd-m">00</b><span data-i18n="cdM">min</span></div>
+        <div><b id="cd-s">00</b><span data-i18n="cdS">sec</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paper torn" id="program">
+    <img class="deco deco-holly" src="assets/holly1.webp" alt="" aria-hidden="true">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="prEyebrow">19 December</p>
+      <h2 data-i18n="prTitle">Order of the Evening</h2>
+      <ol class="tl" id="timeline"></ol>
+    </div>
+  </section>
+
+  <section class="dark torn" id="dresscode">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="dcEyebrow">Dress code</p>
+      <h2 data-i18n="dcTitle">Dress Robes</h2>
+      <p class="dc-intro" data-i18n="dcIntro"></p>
+      <ul class="rules" id="rules"></ul>
+      <div class="hatbox">
+        <button class="hat" id="hat" type="button" aria-describedby="speech">
+          <img class="idle" src="assets/hat-idle.webp" alt="">
+          <img class="talk" src="assets/hat-talk.webp" alt="">
+        </button>
+        <p class="speech" id="speech" aria-live="polite" data-i18n="hatHint">Tap the Hat to find out your style</p>
+        <div id="result"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paper torn venue" id="venue">
+    <img class="deco deco-holly2" src="assets/holly2.webp" alt="" aria-hidden="true">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="vnEyebrow">Barri Gòtic</p>
+      <h2 data-i18n="vnTitle">The Venue</h2>
+      <div class="wreath" aria-hidden="true"><b>9</b><small>Carrer dels Mussols</small></div>
+      <p class="vname">El Caldero Mágico</p>
+      <p class="addr">Carrer dels Mussols, 9 · 08002 Barcelona<br><span data-i18n="metro">Metro: Jaume I (L4) or Liceu (L3)</span></p>
+      <img class="bar" src="assets/bar.webp" alt="" loading="lazy">
+      <p class="note" data-i18n="vnNote"></p>
+      <a class="btn btn-wine" href="https://www.google.com/maps/search/?api=1&query=Barri+G%C3%B2tic%2C+Barcelona" target="_blank" rel="noopener" data-i18n="vnMap">Open in Maps</a>
+    </div>
+  </section>
+
+  <section class="dark torn" id="good">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="gkEyebrow">Before you come</p>
+      <h2 data-i18n="gkTitle">Good to Know</h2>
+      <div class="facts" id="facts"></div>
+    </div>
+  </section>
+
+  <section class="paper torn" id="rsvp">
+    <img class="garland" src="assets/garland.webp" alt="" aria-hidden="true">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="rsEyebrow">RSVP by 10 December</p>
+      <h2 data-i18n="rsTitle">Send an Owl</h2>
+      <form id="rsvpForm" novalidate>
+        <div class="field">
+          <label for="rsvp-name" data-i18n="fName">Your name</label>
+          <input type="text" id="rsvp-name" autocomplete="name" data-i18n-ph="fNamePh">
+        </div>
+        <fieldset class="field">
+          <legend data-i18n="fAttend">Will you come?</legend>
+          <div class="pills">
+            <label><input type="radio" name="attend" id="rsvp-yes" value="yes" checked><span data-i18n="fYes">With pleasure</span></label>
+            <label><input type="radio" name="attend" id="rsvp-no" value="no"><span data-i18n="fNo">Alas, I cannot</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="field" id="plusField">
+          <legend data-i18n="fPlus">Companion</legend>
+          <div class="pills">
+            <label><input type="radio" name="plus" id="rsvp-alone" value="0" checked><span data-i18n="fAlone">Coming alone</span></label>
+            <label><input type="radio" name="plus" id="rsvp-plus1" value="1"><span data-i18n="fPlus1">Coming with +1</span></label>
+          </div>
+          <input type="text" id="rsvp-plus-name" data-i18n-ph="fPlusPh" hidden>
+        </fieldset>
+        <div class="field">
+          <label for="rsvp-house" data-i18n="fHouse">Your house</label>
+          <select id="rsvp-house"></select>
+        </div>
+        <div class="field">
+          <label for="rsvp-diet" data-i18n="fDiet">Food preferences or allergies</label>
+          <input type="text" id="rsvp-diet" data-i18n-ph="fDietPh">
+        </div>
+        <div class="field">
+          <label for="rsvp-song" data-i18n="fSong">A song for the dance floor</label>
+          <input type="text" id="rsvp-song" data-i18n-ph="fSongPh">
+        </div>
+        <p class="err" id="rsvpErr" aria-live="polite"></p>
+        <button class="btn btn-wine submit" type="submit" data-i18n="fSend">Send the owl</button>
+      </form>
+      <div class="done" id="rsvpDone" hidden>
+        <h3 data-i18n="dTitle">Your owl is on its way</h3>
+        <p data-i18n="dText"></p>
+        <pre id="rsvpMsg"></pre>
+        <div class="row">
+          <a class="btn btn-wine" id="waLink" href="#" target="_blank" rel="noopener" data-i18n="dWa">Send via WhatsApp</a>
+          <button class="btn btn-ghost" type="button" id="copyBtn" data-i18n="dCopy">Copy message</button>
+        </div>
+        <button class="btn btn-ghost" type="button" id="againBtn" data-i18n="dAgain">Change my answer</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="dark torn">
+    <div class="wrap">
+      <img class="deco-mist" src="assets/mistletoe.webp" alt="" aria-hidden="true">
+      <p class="bye" data-i18n="bye">Mischief managed.</p>
+      <small>YULE BALL · BARCELONA · 2026</small>
+    </div>
+  </footer>
+
+</div>
+</div>
+
+<script>
+(()=>{
+const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z"/></svg>';
+const ICONS={
+  plus:'<svg viewBox="0 0 40 40"><circle cx="15" cy="14" r="6"/><circle cx="27" cy="16" r="5"/><path d="M4 34c1-7 6-11 11-11s10 4 11 11M23 25c2-2 4-3 6-3 4 0 7 3 8 9"/></svg>',
+  gift:'<svg viewBox="0 0 40 40"><rect x="6" y="15" width="28" height="20" rx="1"/><path d="M4 11h32v5H4zM20 11v24M20 11c-3-6-10-7-10-2 0 3 6 2 10 2zM20 11c3-6 10-7 10-2 0 3-6 2-10 2z"/></svg>',
+  photo:'<svg viewBox="0 0 40 40"><rect x="4" y="11" width="32" height="22" rx="2"/><circle cx="20" cy="22" r="7"/><path d="M14 11l3-4h6l3 4"/></svg>',
+  moon:'<svg viewBox="0 0 40 40"><path d="M27 30A13 13 0 1 1 22 5a10 10 0 0 0 5 25z"/><path d="M31 8l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></svg>'
+};
+const HOUSES=['gryffindor','slytherin','ravenclaw','hufflepuff'];
+const HCOL={gryffindor:['#7a1420','#b3261e','#d4a63a'],slytherin:['#0f4a32','#1f6b48','#b9c0c4'],ravenclaw:['#141f45','#24356e','#a8733d'],hufflepuff:['#d9a62a','#efc95a','#1b1b1b']};
+const HACC={gryffindor:'#b3261e',slytherin:'#1f6b48',ravenclaw:'#3a4f94',hufflepuff:'#d9a62a'};
+
+const T={
+en:{
+ hint:'Touch the seal',heroEyebrow:'Barcelona · 19 December 2026',heroTitle:'The Yule Ball',heroSub:'An evening of candlelight, music and mulled wine',cue:'Read on',
+ greet:'Dear Guest,',
+ l1:'We are pleased to inform you that you have been accepted to the <b>Yule Ball</b>, to be held on Saturday, 19 December, at El Caldero Mágico in the Gothic Quarter of Barcelona.',
+ l2:'Dress robes are required. The Sorting Hat has kindly agreed to help every guest choose a style.',
+ l3:'We await your owl no later than <b>10 December</b>.',
+ l4:'Yours sincerely,',l5:'Deputy Head of Festivities',
+ cdEyebrow:'Saturday · 19:30',cdTitle:'The Ball begins in',cdD:'days',cdH:'hours',cdM:'min',cdS:'sec',
+ prEyebrow:'19 December',prTitle:'Order of the Evening',
+ tl:[['19:30','Arrival of Guests','Butterbeer and mulled wine by the fire'],['20:00','The Sorting','The Hat divides everyone into four houses: your teams for the night'],['20:30','The Feast','Christmas dinner in the Great Hall'],['21:30','The Opening Waltz','The champions dance first, everyone else right after'],['22:00','Battle of the Houses','A quiz on the wizarding world, with points for every house'],['23:00','Dancing','Music until the candles burn down'],['00:30','The House Cup','Prizes for the winning house and the best costume']],
+ dcEyebrow:'Dress code',dcTitle:'Dress Robes',dcIntro:'Formal evening wear with one touch of magic. Let the Sorting Hat choose your style.',
+ rules:['Evening gowns, suits or tuxedos','One magical accent: a house scarf or tie, a robe, a wand or an enchanted brooch','Filch does not let in Muggles wearing jeans and trainers'],
+ hatHint:'Tap the Hat to find out your style',hatThink:['Hmm… difficult. Very difficult…','Plenty of courage, I see. Not a bad mind, either…','There\'s talent, oh my goodness, yes…'],hatSays:'Better be…',hatAgain:'Ask the Hat again',
+ gowns:'Gowns',suits:'Suits',magic:'Magic touch',
+ houses:{gryffindor:['Gryffindor','Fire & Gold','Deep scarlet or burgundy velvet, gold jewellery, a bold silhouette.','A black or burgundy velvet jacket, a scarlet tie or pocket square, gold cufflinks.','A lion brooch, a gold-trimmed robe, anything that catches the candlelight.'],slytherin:['Slytherin','Emerald & Silver','Emerald or black satin, a sleek line, silver jewellery.','A black suit with an emerald tie or waistcoat, silver details.','A serpent ring, a silver brooch, a long dark cloak.'],ravenclaw:['Ravenclaw','Midnight & Bronze','Midnight blue scattered with stars, bronze or silver accents.','A navy or midnight-blue suit, a bronze tie, a starry pocket square.','Celestial jewellery, a diadem, a tiny telescope pin.'],hufflepuff:['Hufflepuff','Honey & Ebony','Honey gold or mustard with black, floral or botanical embroidery.','A black suit with a mustard tie or waistcoat, a sprig in the buttonhole.','A badger pin, dried flowers, a little greenhouse charm.']},
+ vnEyebrow:'Barri Gòtic',vnTitle:'The Venue',metro:'Metro: Jaume I (L4) or Liceu (L3)',vnNote:'Look for the wooden door with a fir wreath. The password at the door is <span class="pw">Mistletoe</span>.',vnMap:'Open in Maps',
+ gkEyebrow:'Before you come',gkTitle:'Good to Know',
+ facts:[['plus','A companion','You may bring one guest. Mention them when you send your owl.'],['gift','Secret Santa','Bring a gift of up to €15, wrapped in your house colours.'],['photo','Photo corner','Wands, scarves and our own Sorting Hat are waiting for your portraits.'],['moon','Getting home','The ball ends around 01:30. On Saturday nights the metro runs all night.']],
+ rsEyebrow:'RSVP by 10 December',rsTitle:'Send an Owl',fName:'Your name',fNamePh:'As it should appear on the guest list',fAttend:'Will you come?',fYes:'With pleasure',fNo:'Alas, I cannot',fPlus:'Companion',fAlone:'Coming alone',fPlus1:'Coming with +1',fPlusPh:'Your companion\'s name',fHouse:'Your house',fHouseHat:'Let the Hat decide',fDiet:'Food preferences or allergies',fDietPh:'Vegetarian, no nuts…',fSong:'A song for the dance floor',fSongPh:'Artist and title',fSend:'Send the owl',fErr:'Please write your name so the owl knows who sent it.',
+ dTitle:'Your owl is on its way',dText:'To make sure it arrives, send this message to the organiser:',dWa:'Send via WhatsApp',dCopy:'Copy message',dCopied:'Copied',dAgain:'Change my answer',
+ mHead:'Yule Ball · RSVP',mName:'Name',mComing:'Coming',mYes:'yes',mNo:'no, sadly',mPlus:'Companion',mHouse:'House',mDiet:'Food',mSong:'Song',
+ bye:'Mischief managed.'
+},
+es:{
+ hint:'Toca el sello',heroEyebrow:'Barcelona · 19 de diciembre de 2026',heroTitle:'El Baile de Navidad',heroSub:'Una noche de velas, música y vino caliente',cue:'Sigue leyendo',
+ greet:'Querido invitado:',
+ l1:'Nos complace informarle de que ha sido admitido en el <b>Baile de Navidad</b>, que se celebrará el sábado 19 de diciembre en El Caldero Mágico, en el Barrio Gótico de Barcelona.',
+ l2:'Se requiere túnica de gala. El Sombrero Seleccionador ha accedido amablemente a ayudar a cada invitado a elegir su estilo.',
+ l3:'Esperamos su lechuza no más tarde del <b>10 de diciembre</b>.',
+ l4:'Atentamente,',l5:'Vicedirección de Festejos',
+ cdEyebrow:'Sábado · 19:30',cdTitle:'El baile empieza en',cdD:'días',cdH:'horas',cdM:'min',cdS:'seg',
+ prEyebrow:'19 de diciembre',prTitle:'Programa de la noche',
+ tl:[['19:30','Llegada de los invitados','Cerveza de mantequilla y vino caliente junto al fuego'],['20:00','La Selección','El Sombrero reparte a todos en cuatro casas: vuestros equipos de la noche'],['20:30','El Banquete','Cena de Navidad en el Gran Comedor'],['21:30','El vals de apertura','Bailan primero los campeones y enseguida todos los demás'],['22:00','Duelo de casas','Un concurso sobre el mundo mágico, con puntos para cada casa'],['23:00','Baile','Música hasta que se consuman las velas'],['00:30','La Copa de las Casas','Premios para la casa ganadora y el mejor disfraz']],
+ dcEyebrow:'Código de vestimenta',dcTitle:'Túnica de gala',dcIntro:'Etiqueta de noche con un toque de magia. Deja que el Sombrero Seleccionador elija tu estilo.',
+ rules:['Vestidos de noche, trajes o esmoquin','Un detalle mágico: bufanda o corbata de tu casa, una túnica, una varita o un broche encantado','Filch no deja pasar a muggles con vaqueros y zapatillas'],
+ hatHint:'Toca el Sombrero para descubrir tu estilo',hatThink:['Mmm… difícil. Muy difícil…','Mucho valor, ya veo. Y una mente nada mala…','Hay talento, vaya que sí…'],hatSays:'Mejor que sea…',hatAgain:'Preguntar otra vez',
+ gowns:'Vestidos',suits:'Trajes',magic:'Toque mágico',
+ houses:{gryffindor:['Gryffindor','Fuego y oro','Terciopelo escarlata o burdeos, joyas doradas, una silueta atrevida.','Chaqueta de terciopelo negra o burdeos, corbata o pañuelo escarlata, gemelos dorados.','Un broche de león, una túnica con ribete dorado, todo lo que brille a la luz de las velas.'],slytherin:['Slytherin','Esmeralda y plata','Satén esmeralda o negro, línea depurada, joyas de plata.','Traje negro con corbata o chaleco esmeralda, detalles plateados.','Un anillo de serpiente, un broche de plata, una capa larga y oscura.'],ravenclaw:['Ravenclaw','Medianoche y bronce','Azul medianoche salpicado de estrellas, toques de bronce o plata.','Traje azul marino o medianoche, corbata bronce, pañuelo estrellado.','Joyas celestes, una diadema, un pequeño broche de telescopio.'],hufflepuff:['Hufflepuff','Miel y ébano','Oro miel o mostaza con negro, bordados florales o botánicos.','Traje negro con corbata o chaleco mostaza, una ramita en el ojal.','Un broche de tejón, flores secas, un pequeño amuleto de invernadero.']},
+ vnEyebrow:'Barri Gòtic',vnTitle:'El lugar',metro:'Metro: Jaume I (L4) o Liceu (L3)',vnNote:'Busca la puerta de madera con una corona de abeto. La contraseña en la entrada es <span class="pw">Muérdago</span>.',vnMap:'Abrir en Mapas',
+ gkEyebrow:'Antes de venir',gkTitle:'Conviene saber',
+ facts:[['plus','Acompañante','Puedes venir con una persona. Indícalo al enviar tu lechuza.'],['gift','Amigo invisible','Trae un regalo de hasta 15 €, envuelto con los colores de tu casa.'],['photo','Rincón de fotos','Varitas, bufandas y nuestro propio Sombrero Seleccionador te esperan.'],['moon','La vuelta a casa','El baile termina hacia la 01:30. Los sábados el metro funciona toda la noche.']],
+ rsEyebrow:'Confirma antes del 10 de diciembre',rsTitle:'Envía una lechuza',fName:'Tu nombre',fNamePh:'Tal como debe aparecer en la lista',fAttend:'¿Vendrás?',fYes:'Con mucho gusto',fNo:'Por desgracia, no puedo',fPlus:'Acompañante',fAlone:'Vengo solo/a',fPlus1:'Vengo con +1',fPlusPh:'Nombre de tu acompañante',fHouse:'Tu casa',fHouseHat:'Que decida el Sombrero',fDiet:'Preferencias o alergias',fDietPh:'Vegetariano, sin frutos secos…',fSong:'Una canción para la pista',fSongPh:'Artista y título',fSend:'Enviar la lechuza',fErr:'Escribe tu nombre para que la lechuza sepa quién la envía.',
+ dTitle:'Tu lechuza ya vuela',dText:'Para asegurarte de que llega, envía este mensaje a quien organiza:',dWa:'Enviar por WhatsApp',dCopy:'Copiar mensaje',dCopied:'Copiado',dAgain:'Cambiar mi respuesta',
+ mHead:'Baile de Navidad · Confirmación',mName:'Nombre',mComing:'Asistiré',mYes:'sí',mNo:'no, por desgracia',mPlus:'Acompañante',mHouse:'Casa',mDiet:'Comida',mSong:'Canción',
+ bye:'Travesura realizada.'
+},
+ru:{
+ hint:'Коснитесь печати',heroEyebrow:'Барселона · 19 декабря 2026',heroTitle:'Святочный бал',heroSub:'Вечер свечей, музыки и глинтвейна',cue:'Читать дальше',
+ greet:'Дорогой гость!',
+ l1:'С радостью сообщаем, что вы зачислены на <b>Святочный бал</b>, который состоится в субботу, 19 декабря, в «El Caldero Mágico» в Готическом квартале Барселоны.',
+ l2:'Парадная мантия обязательна. Распределяющая шляпа любезно согласилась помочь каждому гостю выбрать стиль.',
+ l3:'Сов с ответом ждём не позднее <b>10 декабря</b>.',
+ l4:'С уважением,',l5:'Заместитель директора по праздничной части',
+ cdEyebrow:'Суббота · 19:30',cdTitle:'До бала осталось',cdD:'дней',cdH:'часов',cdM:'минут',cdS:'секунд',
+ prEyebrow:'19 декабря',prTitle:'Порядок вечера',
+ tl:[['19:30','Сбор гостей','Сливочное пиво и глинтвейн у камина'],['20:00','Распределение','Шляпа делит всех на четыре факультета: это ваши команды на вечер'],['20:30','Праздничный пир','Рождественский ужин в Большом зале'],['21:30','Открывающий вальс','Первыми танцуют чемпионы, сразу за ними все остальные'],['22:00','Битва факультетов','Квиз по волшебному миру, баллы каждому факультету'],['23:00','Танцы','Музыка, пока не догорят свечи'],['00:30','Кубок факультетов','Награды факультету-победителю и за лучший образ']],
+ dcEyebrow:'Дресс-код',dcTitle:'Парадные мантии',dcIntro:'Вечерний наряд и один волшебный акцент. Пусть Распределяющая шляпа выберет ваш стиль.',
+ rules:['Вечерние платья, костюмы или смокинги','Один волшебный акцент: шарф или галстук факультета, мантия, палочка или заколдованная брошь','Филч не пустит магглов в джинсах и кроссовках'],
+ hatHint:'Нажмите на шляпу, чтобы узнать свой стиль',hatThink:['Хм… Трудно. Очень трудно…','Вижу, смелости хватает. И ум неплохой…','Есть талант, о да, ещё какой…'],hatSays:'Пожалуй…',hatAgain:'Спросить шляпу ещё раз',
+ gowns:'Платья',suits:'Костюмы',magic:'Волшебный акцент',
+ houses:{gryffindor:['Гриффиндор','Огонь и золото','Бархат цвета алого или бордо, золотые украшения, смелый силуэт.','Чёрный или бордовый бархатный пиджак, алый галстук или платок, золотые запонки.','Брошь со львом, мантия с золотой каймой, всё, что ловит свет свечей.'],slytherin:['Слизерин','Изумруд и серебро','Изумрудный или чёрный атлас, строгая линия, серебряные украшения.','Чёрный костюм с изумрудным галстуком или жилетом, серебряные детали.','Кольцо со змеёй, серебряная брошь, длинный тёмный плащ.'],ravenclaw:['Когтевран','Полночь и бронза','Полуночно-синий со звёздами, бронзовые или серебряные акценты.','Тёмно-синий костюм, бронзовый галстук, платок со звёздами.','Небесные украшения, диадема, крошечный значок-телескоп.'],hufflepuff:['Пуффендуй','Мёд и чёрное дерево','Медово-золотой или горчичный с чёрным, цветочная вышивка.','Чёрный костюм с горчичным галстуком или жилетом, веточка в петлице.','Значок с барсуком, сухоцветы, маленький оберег из теплицы.']},
+ vnEyebrow:'Готический квартал',vnTitle:'Место',metro:'Метро: Jaume I (L4) или Liceu (L3)',vnNote:'Ищите деревянную дверь с еловым венком. Пароль на входе: <span class="pw">Омела</span>.',vnMap:'Открыть карту',
+ gkEyebrow:'Перед балом',gkTitle:'Важно знать',
+ facts:[['plus','С парой','Можно прийти с одним гостем. Укажите его, когда отправите сову.'],['gift','Тайный Санта','Принесите подарок до 15 €, упакованный в цвета своего факультета.'],['photo','Фотозона','Палочки, шарфы и наша собственная Распределяющая шляпа ждут ваших портретов.'],['moon','Дорога домой','Бал закончится около 01:30. В ночь на воскресенье метро работает всю ночь.']],
+ rsEyebrow:'Ответ до 10 декабря',rsTitle:'Отправить сову',fName:'Ваше имя',fNamePh:'Как записать вас в список гостей',fAttend:'Вы придёте?',fYes:'С удовольствием',fNo:'Увы, не смогу',fPlus:'Пара',fAlone:'Приду один / одна',fPlus1:'Приду с +1',fPlusPh:'Имя вашего спутника',fHouse:'Ваш факультет',fHouseHat:'Пусть решит шляпа',fDiet:'Предпочтения в еде или аллергии',fDietPh:'Вегетарианское, без орехов…',fSong:'Песня для танцпола',fSongPh:'Исполнитель и название',fSend:'Отправить сову',fErr:'Напишите имя, чтобы сова знала, от кого письмо.',
+ dTitle:'Сова уже в пути',dText:'Чтобы письмо точно дошло, отправьте это сообщение организатору:',dWa:'Отправить в WhatsApp',dCopy:'Скопировать',dCopied:'Скопировано',dAgain:'Изменить ответ',
+ mHead:'Святочный бал · ответ',mName:'Имя',mComing:'Приду',mYes:'да',mNo:'нет, увы',mPlus:'Пара',mHouse:'Факультет',mDiet:'Еда',mSong:'Песня',
+ bye:'Шалость удалась.'
+}};
+
+const $=s=>document.querySelector(s);
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lang=ls.get('yb-lang');
+if(!T[lang]){const n=(navigator.language||'en').toLowerCase();lang=n.startsWith('ru')?'ru':(n.startsWith('es')||n.startsWith('ca'))?'es':'en';}
+let house=ls.get('yb-house'); if(!HOUSES.includes(house)) house=null;
+
+function t(k){return T[lang][k]!==undefined?T[lang][k]:T.en[k]}
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const v=t(el.dataset.i18n);if(typeof v==='string')el.innerHTML=v;});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>el.placeholder=t(el.dataset.i18nPh));
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+  $('#envelope').setAttribute('aria-label',t('hint'));
+  $('#timeline').innerHTML=t('tl').map(([tm,h,p])=>`<li><time>${tm}</time><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z"/></svg><div><h3>${h}</h3><p>${p}</p></div></li>`).join('');
+  $('#rules').innerHTML=t('rules').map(r=>`<li>${STAR}<span>${r}</span></li>`).join('');
+  $('#facts').innerHTML=t('facts').map(([i,h,p])=>`<div class="fact">${ICONS[i]}<div><h3>${h}</h3><p>${p}</p></div></div>`).join('');
+  const sel=$('#rsvp-house'),cur=sel.value;
+  sel.innerHTML=`<option value="">${t('fHouseHat')}</option>`+HOUSES.map(h=>`<option value="${h}">${t('houses')[h][0]}</option>`).join('');
+  sel.value=cur||house||'';
+  if(house && $('#result').dataset.shown) renderResult(false); else if(!thinking) $('#speech').textContent=house?t('hatSays')+' '+t('houses')[house][0].toUpperCase()+'!':t('hatHint');
+  if(lastMsg) buildMsg();
+  if(window._place) window._place();
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.lang;ls.set('yb-lang',lang);applyLang();}));
+
+/* ---------- torn edges ---------- */
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+document.querySelectorAll('.torn').forEach((el,i)=>{
+  const n=46,pts=[];for(let k=0;k<=n;k++){const x=(k/n*100).toFixed(2);const y=(k%2?3+rnd()*9:8+rnd()*10).toFixed(1);pts.push(`${x}% ${y}px`)}
+  el.style.clipPath=`polygon(${pts.join(',')},100% 100%,0 100%)`;el.style.zIndex=i+2;
+});
+
+{const half=$('#ornHalf'),m=half.cloneNode(true);m.removeAttribute('id');m.setAttribute('transform','scale(-1,1)');half.after(m);}
+/* ---------- envelope layout ---------- */
+const env=$('#envelope'),seal=$('.seal'),hint=$('.hint'),orn=$('.orn');
+function layoutEnv(){
+  const vw=innerWidth,vh=innerHeight,land=vw>vh&&vw>=720;
+  let w,h;
+  if(land){w=Math.min(vw*.6,vh*.78*1.5);h=w/1.5}else{w=vw;h=vh}
+  env.style.width=w+'px';env.style.height=h+'px';env.classList.toggle('landscape',land);
+  const tip=land?.60:.56;
+  const lt=$('#lnT');lt.setAttribute('d',`M0 0 L500 ${tip*1000} L1000 0`);
+  // bottom flap edges end where they meet the top flap edges
+  const s1=tip*2,s2=(1000-460)/500,ix=1000/(s1+s2)/1; // y=s1*x and y=1000-s2*x
+  const x=1000/(s1+s2),y=s1*x;
+  $('#lnL').setAttribute('d',`M0 1000 L${x.toFixed(1)} ${y.toFixed(1)}`);
+  $('#lnR').setAttribute('d',`M1000 1000 L${(1000-x).toFixed(1)} ${y.toFixed(1)}`);
+  const sz=land?h*.27:Math.min(w*.38,190);
+  const sy=h*(tip-.035);
+  seal.style.width=sz+'px';seal.style.left=w/2+'px';seal.style.top=sy+'px';
+  const os=sz*2.9;orn.style.width=os+'px';orn.style.height=os+'px';orn.style.left=(w/2-os/2)+'px';orn.style.top=(sy-os/2)+'px';
+  hint.style.top=(sy+sz*.62+12)+'px';
+}
+layoutEnv();addEventListener('resize',()=>{if(!opened)layoutEnv()});
+
+/* ---------- sparkles ---------- */
+const fx=$('#fx'),fxc=fx.getContext('2d');let parts=[],fxOn=false;
+function sizeFx(){const d=Math.min(devicePixelRatio||1,2);fx.width=innerWidth*d;fx.height=innerHeight*d;fxc.setTransform(d,0,0,d,0,0)}
+sizeFx();addEventListener('resize',sizeFx);
+function spark(x,y,n,spd,life){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=(.3+Math.random())*spd;parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-.3,l:life*(.5+Math.random()*.5),t:0,r:.8+Math.random()*2.2})}if(!fxOn){fxOn=true;requestAnimationFrame(fxLoop)}}
+function fxLoop(){fxc.clearRect(0,0,innerWidth,innerHeight);parts=parts.filter(p=>p.t<p.l);
+  for(const p of parts){p.t++;p.x+=p.vx;p.y+=p.vy;p.vy+=.02;p.vx*=.985;const a=Math.max(0,1-p.t/p.l);
+    fxc.globalAlpha=a;fxc.fillStyle='#ffe9a8';fxc.beginPath();fxc.arc(p.x,p.y,p.r*a+.3,0,7);fxc.fill();
+    fxc.globalAlpha=a*.35;fxc.beginPath();fxc.arc(p.x,p.y,p.r*3*a,0,7);fxc.fill()}
+  fxc.globalAlpha=1;if(parts.length)requestAnimationFrame(fxLoop);else{fxOn=false;fxc.clearRect(0,0,innerWidth,innerHeight)}}
+function sparkAlongLines(dur){
+  const r=env.getBoundingClientRect();const paths=['#lnT','#lnL','#lnR'].map(s=>$(s));const t0=performance.now();
+  (function tick(now){const k=Math.min(1,(now-t0)/dur);
+    for(const p of paths){const L=p.getTotalLength();const pt=p.getPointAtLength(L*k*(.85+Math.random()*.15));
+      spark(r.left+pt.x/1000*r.width,r.top+pt.y/1000*r.height,2,1.1,40)}
+    if(k<1)requestAnimationFrame(tick)})(t0);
+}
+
+/* ---------- open sequence ---------- */
+let opened=false;
+const site=$('#site'),stage=$('#stage');
+document.body.classList.add('locked');
+env.addEventListener('click',openLetter);
+function openLetter(){
+  if(opened)return;opened=true;
+  const r=env.getBoundingClientRect(),sr=seal.getBoundingClientRect();
+  const cx=sr.left+sr.width/2,cy=sr.top+sr.height/2;
+  const k=reduce?.35:1;
+  env.classList.add('glow');spark(cx,cy,40,2.2,60);sparkAlongLines(1200*k);
+  setTimeout(()=>{env.classList.add('melt');spark(cx,cy,120,3.4,80)},1150*k);
+  setTimeout(()=>{env.classList.add('open','dim')},1450*k);
+  setTimeout(()=>{env.classList.add('rise');flyIntro(cx,cy)},2250*k);
+  setTimeout(()=>{stage.classList.add('gone');site.classList.add('shown');site.removeAttribute('aria-hidden');document.body.classList.remove('locked')},2900*k);
+  setTimeout(()=>{stage.hidden=true},4000*k);
+}
+
+/* ---------- owl: intro flight ---------- */
+const intro=$('#owlIntro'),owl=$('#owl');
+// sprite sheets: 8 columns x 6 rows, cut from the generated videos (24 fps)
+const SPR={back:{n:48,ar:259/380},side:{n:46},glide:{n:44}};
+['owl-back-sprite','owl-side-sprite','owl-glide-sprite'].forEach(n=>{const i=new Image();i.src='assets/'+n+'.webp'});
+function setSpr(el,i){i=Math.floor(i);el.style.backgroundPosition=`${(i%8)/7*100}% ${Math.floor(i/8)/5*100}%`}
+const OW=()=>innerWidth<700?128:196; // companion frame width (owl body is ~1/3 of it)
+const OR=179/260;
+function flyIntro(sx,sy){
+  const w=Math.min(innerWidth*.86,560),h=w*SPR.back.ar;
+  intro.style.width=w+'px';intro.style.height=h+'px';
+  const p=perchPoint();const endScale=.09;
+  const ex=p.x,ey=p.y-OW()*OR*.42;
+  const midx=sx+(ex-sx)*.45+(innerWidth*.08),midy=sy+(ey-sy)*.5;
+  const tr=(x,y,s,rot=0)=>`translate(${x-w/2}px,${y-h/2}px) rotate(${rot}deg) scale(${s})`;
+  const dur=reduce?900:2800;
+  const a=intro.animate([
+    {transform:tr(sx,sy+40,.45),opacity:0},
+    {transform:tr(sx,sy,.85),opacity:1,offset:.1},
+    {transform:tr(sx-8,sy-50,1,-3),opacity:1,offset:.22},
+    {transform:tr(midx,midy,.42,6),opacity:1,offset:.6},
+    {transform:tr(ex,ey,endScale,0),opacity:1,offset:.95},
+    {transform:tr(ex,ey,endScale*.8,0),opacity:0}
+  ],{duration:dur,easing:'cubic-bezier(.35,.1,.3,1)',fill:'forwards'});
+  const el=intro.querySelector('.spr');let f=0,last=performance.now(),run=true;
+  (function tick(now){if(!run)return;f=(f+(now-last)*26/1000)%SPR.back.n;last=now;setSpr(el,f);requestAnimationFrame(tick)})(last);
+  setTimeout(startCompanion,dur*.88);
+  a.onfinish=()=>{run=false;intro.remove()};
+}
+
+/* ---------- owl: companion ---------- */
+const perchEl=$('#perch');
+function perchPoint(){const r=perchEl.getBoundingClientRect();return{x:r.left+r.width/2,y:r.bottom}}
+let ox=0,oy=0,vs=0,lastY=0,flip=1,rot=0,frame='',active=false,lastT=0,fSide=0,fGlide=0,idleSince=0;
+const elS=owl.querySelector('.side'),elG=owl.querySelector('.glide'),imP=owl.querySelector('.perched');
+function setFrame(f){if(f===frame)return;frame=f;elS.classList.toggle('show',f==='side');elG.classList.toggle('show',f==='glide');imP.classList.toggle('show',f==='perched')}
+function station(){
+  const vw=innerWidth,vh=innerHeight,W=OW();const col=Math.min(760,vw);const margin=(vw-col)/2;
+  const roomy=margin>W*.75;
+  const x=roomy?vw-margin/2:vw-W*.3;
+  const sway=Math.sin(scrollY/380)*(roomy?Math.min(30,margin*.18):8);
+  return{x:x+sway,y:vh*.32+Math.sin(performance.now()/1100)*7};
+}
+function sizeOwl(){const W=OW();owl.style.width=W+'px';owl.style.height=W*OR+'px'}
+function startCompanion(){
+  const p=perchPoint();const W=OW();ox=p.x;oy=p.y-W*OR*.42;lastY=scrollY;sizeOwl();
+  setFrame('perched');owl.classList.add('on');active=true;lastT=performance.now();requestAnimationFrame(loop);
+}
+addEventListener('resize',()=>{if(active)sizeOwl()});
+function loop(now){
+  if(!active)return;
+  const dt=Math.min(64,now-lastT);lastT=now;
+  const W=OW(),H=W*OR;const y=scrollY;const d=y-lastY;lastY=y;vs=vs*.82+d*.18;
+  const perched=y<30;
+  let tx,ty;
+  if(perched){const p=perchPoint();tx=p.x;ty=p.y-H*.42}else{const s=station();tx=s.x;ty=s.y}
+  const dx=tx-ox,dy=ty-oy;const k=perched?.1:.06;
+  ox+=dx*k;oy+=dy*k;const dist=Math.hypot(dx,dy);
+  let trot=0;
+  if(perched&&dist<5){setFrame('perched');flip=1}
+  else{
+    const sp=Math.abs(vs);const moving=sp>.5||dist>22;
+    if(moving)idleSince=now;
+    if(Math.abs(dx)>16) flip=dx<0?-1:1;
+    if(moving||now-idleSince<350){
+      fSide=(fSide+dt*24/1000*Math.min(1.9,.95+sp*.05+dist*.002))%SPR.side.n;setSpr(elS,fSide);setFrame('side');
+    }else{
+      fGlide=(fGlide+dt*20/1000)%SPR.glide.n;setSpr(elG,fGlide);setFrame('glide');
+    }
+    trot=Math.max(-28,Math.min(22,(vs>0?vs*.8:vs*1.3)+dy*.04));
+  }
+  rot+=(trot-rot)*.1;
+  owl.style.transform=`translate(${ox-W/2}px,${oy-H/2}px) rotate(${rot*flip}deg) scaleX(${flip})`;
+  requestAnimationFrame(loop);
+}
+
+/* ---------- snow ---------- */
+const sc=$('#snow'),sx=sc.getContext('2d');let flakes=[];
+function sizeSnow(){const d=Math.min(devicePixelRatio||1,2);sc.width=innerWidth*d;sc.height=innerHeight*d;sx.setTransform(d,0,0,d,0,0);
+  const n=reduce?25:(innerWidth<700?70:140);flakes=Array.from({length:n},()=>mk(true))}
+function mk(any){const z=Math.random();return{x:Math.random()*innerWidth,y:any?Math.random()*innerHeight:-10,r:.8+z*2.6,v:.25+z*.9,ph:Math.random()*6.3,a:.35+z*.55}}
+sizeSnow();addEventListener('resize',sizeSnow);
+let lastSY=scrollY;
+(function snow(){sx.clearRect(0,0,innerWidth,innerHeight);const ds=scrollY-lastSY;lastSY=scrollY;
+  for(const f of flakes){f.ph+=.01;f.y+=f.v*(reduce?.4:1)-ds*f.r*.06;f.x+=Math.sin(f.ph)*.35;
+    if(f.y>innerHeight+10){Object.assign(f,mk(false))} if(f.y<-12)f.y=innerHeight+8;
+    sx.globalAlpha=f.a;sx.fillStyle='#fff';sx.beginPath();sx.arc(f.x,f.y,f.r,0,7);sx.fill()}
+  requestAnimationFrame(snow)})();
+
+/* ---------- countdown ---------- */
+const target=Date.UTC(2026,11,19,18,30);
+function cd(){let s=Math.max(0,Math.floor((target-Date.now())/1000));const D=Math.floor(s/86400);s%=86400;const H=Math.floor(s/3600);s%=3600;const M=Math.floor(s/60);s%=60;
+  $('#cd-d').textContent=String(D).padStart(2,'0');$('#cd-h').textContent=String(H).padStart(2,'0');$('#cd-m').textContent=String(M).padStart(2,'0');$('#cd-s').textContent=String(s).padStart(2,'0')}
+cd();setInterval(cd,1000);
+
+/* ---------- sorting hat ---------- */
+let thinking=false;const hat=$('#hat'),speech=$('#speech'),result=$('#result');
+hat.addEventListener('click',sortMe);
+function sortMe(){
+  if(thinking)return;thinking=true;result.innerHTML='';delete result.dataset.shown;hat.classList.add('think');
+  const lines=t('hatThink');let i=0;speech.textContent=lines[0];
+  const step=reduce?500:1250;
+  const talk=setInterval(()=>hat.classList.toggle('speak',Math.random()<.55),170);
+  const iv=setInterval(()=>{i++;if(i<lines.length){speech.textContent=lines[i];return}
+    clearInterval(iv);clearInterval(talk);hat.classList.add('speak');setTimeout(()=>hat.classList.remove('speak'),1600);
+    let next;do{next=HOUSES[Math.floor(Math.random()*4)]}while(next===house&&Math.random()<.7);
+    house=next;ls.set('yb-house',house);hat.classList.remove('think');thinking=false;renderResult(true);
+    if(!$('#rsvp-house').value) $('#rsvp-house').value=house;
+  },step);
+}
+function renderResult(fresh){
+  const h=t('houses')[house];
+  speech.textContent=t('hatSays')+' '+h[0].toUpperCase()+'!';
+  result.dataset.shown='1';
+  result.innerHTML=`<div class="result" style="--house:${HACC[house]}">
+    <p class="hname">${h[0].toUpperCase()}</p><p class="sname">${h[1]}</p>
+    <img class="look" src="assets/style-${house}.webp" alt="${h[1]}">
+
+    <div class="sw">${HCOL[house].map(c=>`<i style="background:${c}"></i>`).join('')}</div>
+    <dl><div><dt>${t('gowns')}</dt><dd>${h[2]}</dd></div><div><dt>${t('suits')}</dt><dd>${h[3]}</dd></div><div><dt>${t('magic')}</dt><dd>${h[4]}</dd></div></dl>
+  </div><p style="margin-top:18px"><button class="btn btn-ghost" type="button" id="again">${t('hatAgain')}</button></p>`;
+  if(!fresh)result.firstElementChild.style.animation='none';
+  $('#again').addEventListener('click',sortMe);
+}
+
+/* ---------- rsvp ---------- */
+const form=$('#rsvpForm'),done=$('#rsvpDone');let lastMsg=null;
+form.addEventListener('change',e=>{if(e.target.name==='plus'){$('#rsvp-plus-name').hidden=e.target.value!=='1'}
+  if(e.target.name==='attend'){$('#plusField').hidden=e.target.value==='no'}});
+function buildMsg(){
+  const v=lastMsg;const lines=[t('mHead'),`${t('mName')}: ${v.name}`,`${t('mComing')}: ${v.yes?t('mYes'):t('mNo')}`];
+  if(v.yes){if(v.plus)lines.push(`${t('mPlus')}: +1${v.plusName?' ('+v.plusName+')':''}`);
+    lines.push(`${t('mHouse')}: ${v.house?t('houses')[v.house][0]:t('fHouseHat')}`);
+    if(v.diet)lines.push(`${t('mDiet')}: ${v.diet}`);if(v.song)lines.push(`${t('mSong')}: ${v.song}`)}
+  const txt=lines.join('\n');$('#rsvpMsg').textContent=txt;$('#waLink').href='https://wa.me/?text='+encodeURIComponent(txt);return txt;
+}
+form.addEventListener('submit',e=>{
+  e.preventDefault();const name=$('#rsvp-name').value.trim();
+  if(!name){$('#rsvpErr').textContent=t('fErr');$('#rsvp-name').focus();return}
+  $('#rsvpErr').textContent='';
+  lastMsg={name,yes:$('#rsvp-yes').checked,plus:$('#rsvp-plus1').checked,plusName:$('#rsvp-plus-name').value.trim(),house:$('#rsvp-house').value,diet:$('#rsvp-diet').value.trim(),song:$('#rsvp-song').value.trim()};
+  buildMsg();sendOwl(form.querySelector('.submit'));
+  setTimeout(()=>{form.hidden=true;done.hidden=false},reduce?100:900);
+});
+$('#againBtn').addEventListener('click',()=>{done.hidden=true;form.hidden=false});
+$('#copyBtn').addEventListener('click',()=>{const b=$('#copyBtn');const txt=$('#rsvpMsg').textContent;
+  const ok=()=>{b.textContent=t('dCopied');setTimeout(()=>b.textContent=t('dCopy'),1800)};
+  try{navigator.clipboard.writeText(txt).then(ok,sel)}catch(e){sel()}
+  function sel(){const r=document.createRange();r.selectNodeContents($('#rsvpMsg'));const s=getSelection();s.removeAllRanges();s.addRange(r)}});
+function sendOwl(btn){
+  const r=btn.getBoundingClientRect(),el=$('#owlLetter'),w=150,h=w*1635/1239;
+  const sx=r.left+r.width/2-w/2,sy=r.top-h*.6;
+  owl.style.opacity='0';
+  el.animate([{transform:`translate(${sx}px,${sy+40}px) scale(.4)`,opacity:0},{transform:`translate(${sx}px,${sy}px) scale(1)`,opacity:1,offset:.2},
+    {transform:`translate(${sx+innerWidth*.25}px,${sy-innerHeight*.35}px) scale(.7) rotate(-8deg)`,opacity:1,offset:.6},
+    {transform:`translate(${innerWidth+60}px,${-h}px) scale(.35) rotate(-14deg)`,opacity:0}],{duration:reduce?600:2200,easing:'cubic-bezier(.4,.1,.4,1)',fill:'forwards'})
+   .onfinish=()=>{owl.style.opacity=''};
+}
+
+applyLang();
+})();
+</script>
+</body>
+</html>
