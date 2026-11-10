@@ -189,12 +189,9 @@ p{margin:0 0 1em}
 .rules li{display:grid;grid-template-columns:22px 1fr;gap:10px}
 .rules svg{width:14px;height:14px;margin-top:6px;fill:var(--gold)}
 .hatbox{display:grid;justify-items:center;gap:14px;text-align:center}
-.hat{position:relative;width:min(280px,72vw);aspect-ratio:560/480;border:0;background:none;cursor:pointer;padding:0;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));transform-origin:50% 90%}
-.hat img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.hat .talk{opacity:0}
-.hat.speak .talk{opacity:1}.hat.speak .idle{opacity:0}
-.hat:not(.think):hover{transform:rotate(-2deg) scale(1.02);transition:transform .3s}
-.hat.think{animation:wobble .9s ease-in-out infinite}
+.hat{position:relative;width:min(320px,80vw);aspect-ratio:320/256;border:0;background:none;cursor:pointer;padding:0;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));transform-origin:50% 90%;transition:transform .3s}
+.hat .spr{background-image:url(assets/hat-sprite.webp);background-size:1000% 1200%}
+.hat:not(.think):hover{transform:rotate(-2deg) scale(1.02)}
 @keyframes wobble{25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font-family:var(--f-display);font-weight:700;letter-spacing:.16em;font-size:15px;text-transform:uppercase;padding:14px 26px;border-radius:999px;text-decoration:none}
 .btn-gold{background:linear-gradient(180deg,#e3c372,#b8903c);color:#1c120a;box-shadow:0 4px 14px rgba(0,0,0,.35)}
@@ -370,8 +367,7 @@ footer small{font-family:var(--f-display);letter-spacing:.22em;font-size:12px;co
       <ul class="rules" id="rules"></ul>
       <div class="hatbox">
         <button class="hat" id="hat" type="button" aria-describedby="speech">
-          <img class="idle" src="assets/hat-idle.webp" alt="">
-          <img class="talk" src="assets/hat-talk.webp" alt="">
+          <span class="spr" role="img" aria-label="Sorting Hat"></span>
         </button>
         <p class="speech" id="speech" aria-live="polite" data-i18n="hatHint">Tap the Hat to find out your style</p>
         <div id="result"></div>
@@ -677,12 +673,15 @@ function perchPoint(){const r=perchEl.getBoundingClientRect();return{x:r.left+r.
 let ox=0,oy=0,vs=0,lastY=0,flip=1,rot=0,frame='',active=false,lastT=0,fSide=0,fGlide=0,idleSince=0;
 const elS=owl.querySelector('.side'),elG=owl.querySelector('.glide'),imP=owl.querySelector('.perched');
 function setFrame(f){if(f===frame)return;frame=f;elS.classList.toggle('show',f==='side');elG.classList.toggle('show',f==='glide');imP.classList.toggle('show',f==='perched')}
+// zigzag: as the page scrolls the owl sweeps from one side of the screen to the other
 function station(){
-  const vw=innerWidth,vh=innerHeight,W=OW();const col=Math.min(760,vw);const margin=(vw-col)/2;
-  const roomy=margin>W*.75;
-  const x=roomy?vw-margin/2:vw-W*.3;
-  const sway=Math.sin(scrollY/380)*(roomy?Math.min(30,margin*.18):8);
-  return{x:x+sway,y:vh*.32+Math.sin(performance.now()/1100)*7};
+  const vw=innerWidth,vh=innerHeight,W=OW();
+  const P=Math.max(520,vh*.9);            // scroll distance for one sweep across
+  const ph=(scrollY-30)/P*Math.PI;
+  const span=vw/2-W*.42;
+  const x=vw/2-Math.cos(ph)*span;          // starts on the left after take-off, then right, left…
+  const y=vh*(.3+.06*Math.sin(ph*2))+Math.sin(performance.now()/1100)*7;
+  return{x,y};
 }
 function sizeOwl(){const W=OW();owl.style.width=W+'px';owl.style.height=W*OR+'px'}
 function startCompanion(){
@@ -698,13 +697,13 @@ function loop(now){
   let tx,ty;
   if(perched){const p=perchPoint();tx=p.x;ty=p.y-H*.42}else{const s=station();tx=s.x;ty=s.y}
   const dx=tx-ox,dy=ty-oy;const k=perched?.1:.06;
-  ox+=dx*k;oy+=dy*k;const dist=Math.hypot(dx,dy);
+  const px=ox;ox+=dx*k;oy+=dy*k;const dist=Math.hypot(dx,dy);const vx=ox-px;
   let trot=0;
   if(perched&&dist<5){setFrame('perched');flip=1}
   else{
-    const sp=Math.abs(vs);const moving=sp>.5||dist>22;
+    const sp=Math.abs(vs);const moving=sp>.5||dist>22||Math.abs(vx)>.6;
     if(moving)idleSince=now;
-    if(Math.abs(dx)>16) flip=dx<0?-1:1;
+    if(Math.abs(vx)>.35) flip=vx<0?-1:1;
     if(moving||now-idleSince<350){
       fSide=(fSide+dt*24/1000*Math.min(1.9,.95+sp*.05+dist*.002))%SPR.side.n;setSpr(elS,fSide);setFrame('side');
     }else{
@@ -741,16 +740,22 @@ let thinking=false;const hat=$('#hat'),speech=$('#speech'),result=$('#result');
 hat.addEventListener('click',sortMe);
 function sortMe(){
   if(thinking)return;thinking=true;result.innerHTML='';delete result.dataset.shown;hat.classList.add('think');
-  const lines=t('hatThink');let i=0;speech.textContent=lines[0];
-  const step=reduce?500:1250;
-  const talk=setInterval(()=>hat.classList.toggle('speak',Math.random()<.55),170);
-  const iv=setInterval(()=>{i++;if(i<lines.length){speech.textContent=lines[i];return}
-    clearInterval(iv);clearInterval(talk);hat.classList.add('speak');setTimeout(()=>hat.classList.remove('speak'),1600);
-    let next;do{next=HOUSES[Math.floor(Math.random()*4)]}while(next===house&&Math.random()<.7);
-    house=next;ls.set('yb-house',house);hat.classList.remove('think');thinking=false;renderResult(true);
-    if(!$('#rsvp-house').value) $('#rsvp-house').value=house;
-  },step);
+  // the hat video (15 fps, 118 frames): wakes 0–1 s, thinks 1–6 s, shouts from ~6.3 s (frame 94)
+  const lines=t('hatThink'),cues=[0,1.6,3.4],SHOUT=94,N=118,FPS=15;
+  speech.textContent='';let shown=-1,done=false;const t0=performance.now();
+  const spr=hat.querySelector('.spr');
+  (function play(now){
+    const sec=(now-t0)/1000*(reduce?3:1);const f=Math.min(N-1,Math.floor(sec*FPS));setHatFrame(f);
+    for(let k=lines.length-1;k>=0;k--){if(sec>=cues[k]){if(shown!==k){shown=k;speech.textContent=lines[k]}break}}
+    if(!done&&f>=SHOUT){done=true;
+      let next;do{next=HOUSES[Math.floor(Math.random()*4)]}while(next===house&&Math.random()<.7);
+      house=next;ls.set('yb-house',house);renderResult(true);
+      if(!$('#rsvp-house').value) $('#rsvp-house').value=house;}
+    if(f<N-1)requestAnimationFrame(play);else{hat.classList.remove('think');thinking=false}
+  })(t0);
 }
+function setHatFrame(i){hat.querySelector('.spr').style.backgroundPosition=`${(i%10)/9*100}% ${Math.floor(i/10)/11*100}%`}
+setHatFrame(0);
 function renderResult(fresh){
   const h=t('houses')[house];
   speech.textContent=t('hatSays')+' '+h[0].toUpperCase()+'!';
